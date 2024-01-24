@@ -9,16 +9,11 @@ import {TransparentUpgradeableProxy} from
 contract CounterScript is Script {
     function setUp() public {
         Counter counterImpl = new Counter();
-        console2.log("resource length");
+        console.log("resource length");
 
-        console2.log(address(counterImpl).code.length);
+        console.log(address(counterImpl).code.length);
         TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy(
-            address(counterImpl),
-            address(proxyAdmin),
-            abi.encodePacked(
-                GoblinTownResources.initialize.selector,
-                abi.encode(config) // init parameters
-            )
+            address(counterImpl), msg.sender, abi.encodePacked(Counter.initialize.selector)
         );
     }
 
